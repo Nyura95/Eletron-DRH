@@ -1,0 +1,147 @@
+<script id="Blocgestime-tpl" type="text/x-handlebars-template">
+  <div class="container-head">
+    <table class='head-table'>
+      <tr>
+        <td class='head-table-left'>{{#if structure_lib}} {{structure_lib}} {{else}} Structure manquante ! {{/if}}<br />{{#if UP}}Effectifs (Unité physique) : {{UP}}{{else}} UP manquant ! {{/if}}</td>
+        <td>Suivi des congés<br/>{{#if name}} {{name}} : {{libelle}} {{else}} {{/if}}</td>
+        <td class='head-table-right'>{{#if date}} {{date}} {{else}} Date introuvable ! {{/if}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class='container-bloc'>
+  {{#each donnee}}
+    <span class="Bloc" {{#if color}} style="background-color:{{color.color}};" {{/if}}>
+      <div class='Bloc-titre'>
+        {{#if mois}} {{mois}} {{else}} Erreur !{{/if}}
+      </div>
+      <div class="first-bloc">
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <td align="center">{{#if libelle.libellePris}} {{libelle.libellePris}} {{else}} Erreur !{{/if}}</td>
+              <td align="center">{{#if libelle.libelleReste}} {{libelle.libelleReste}} {{else}} Erreur !{{/if}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td align="center" style="font-size:10px;">{{#if libelle.Slibelle}} {{libelle.Slibelle}} {{else}} Erreur !{{/if}}</td>
+              <td align="center" style="font-size:10px;">{{#if libelle.Slibelle}} {{libelle.Slibelle}} {{else}} Erreur !{{/if}}</td>
+            </tr>
+          </thead>
+          <tr>
+            <td>CA :</td>
+            <td class="white" align="center" {{#if CA_color}} style="background-color:{{CA_color.color}}" {{else}} {{/if}}>{{#if CA_pris}} {{CA_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if CA_color}} style="background-color:{{CA_color.color}}" {{else}} {{/if}}>{{#if CA_reste}} {{CA_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+          <tr>
+            <td>RT :</td>
+            <td class="white" align="center" {{#if RT_color}} style="background-color:{{RT_color.color}}" {{else}} {{/if}}>{{#if RT_pris}} {{RT_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if RT_color}} style="background-color:{{RT_color.color}}" {{else}} {{/if}}>{{#if RT_reste}} {{RT_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+          <tr>
+            <td>RR :</td>
+            <td class="white" align="center" {{#if RR_color}} style="background-color:{{RR_color.color}}" {{else}} {{/if}}>{{#if RR_pris}} {{RR_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center"{{#if RR_color}} style="background-color:{{RR_color.color}}" {{else}} {{/if}}>{{#if RR_reste}} {{RR_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <hr class="line"/>
+      <div class="sous-total">
+        <table>
+          <tr>
+            <td>Sous total :</td>
+            <td class="white" align="center" {{#if ST_color_one}} style="background-color:{{ST_color_one.color}}" {{else}} {{/if}}>{{#if ST_pris_one}} {{ST_pris_one}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if ST_color_one}} style="background-color:{{ST_color_one.color}}" {{else}} {{/if}}>{{#if ST_reste_one}} {{ST_reste_one}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="second-bloc">
+        <table>
+          <tr>
+            <td>JS :</td>
+            <td class="white" align="center" {{#if JS_color}} style="background-color:{{JS_color.color}}" {{else}} {{/if}}>{{#if JS_pris}} {{JS_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if JS_color}} style="background-color:{{JS_color.color}}" {{else}} {{/if}}>{{#if JS_reste}} {{JS_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+          <tr>
+            <td>FP :</td>
+            <td class="white" align="center" {{#if FP_color}} style="background-color:{{FP_color.color}}" {{else}} {{/if}}>{{#if FP_pris}} {{FP_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if FP_color}} style="background-color:{{FP_color.color}}" {{else}} {{/if}}>{{#if FP_reste}} {{FP_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+          <tr>
+            <td>JH :</td>
+            <td class="white" align="center" {{#if JH_color}} style="background-color:{{JH_color.color}}" {{else}} {{/if}}>{{#if JH_pris}} {{JH_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if JH_color}} style="background-color:{{JH_color.color}}" {{else}} {{/if}}>{{#if JH_reste}} {{JH_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+          <tr>
+            <td>HP :</td>
+            <td class="white" align="center" {{#if HP_color}} style="background-color:{{HP_color.color}}" {{else}} {{/if}}>{{#if HP_pris}} {{HP_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if HP_color}} style="background-color:{{HP_color.color}}" {{else}} {{/if}}>{{#if HP_reste}} {{HP_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <hr class="line"/>
+      <div class="sous-total">
+        <table>
+          <tr>
+            <td>Sous total :</td>
+            <td class="white" align="center" {{#if ST_color_two}} style="background-color:{{ST_color_two.color}}" {{else}} {{/if}}>{{#if ST_pris_two}} {{ST_pris_two}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if ST_color_two}} style="background-color:{{ST_color_two.color}}" {{else}} {{/if}}>{{#if ST_reste_two}} {{ST_reste_two}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="global-bloc">
+        <table>
+          <tr>
+            <td>Total cptr*:</td>
+            <td class="white" align="center" {{#if cptr_color}} style="background-color:{{cptr_color.color}}" {{else}} {{/if}}>{{#if cptr_pris}} {{cptr_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if cptr_color}} style="background-color:{{cptr_color.color}}" {{else}} {{/if}}>{{#if cptr_reste}} {{cptr_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="last-bloc">
+        <table>
+          <tr>
+            <td>CT :</td>
+            <td class="white" align="center" {{#if CT_color}} style="background-color:{{CT_color.color}}" {{else}} {{/if}}>{{#if CT_pris}} {{CT_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if CT_color}} style="background-color:{{CT_color.color}}" {{else}} {{/if}}>{{#if CT_reste}} {{CT_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+          <tr>
+            <td>CH :</td>
+            <td class="white" align="center" {{#if CH_color}} style="background-color:{{CH_color.color}}" {{else}} {{/if}}>{{#if CH_pris}} {{CH_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if CH_color}} style="background-color:{{CH_color.color}}" {{else}} {{/if}}>{{#if CH_reste}} {{CH_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <hr class="line"/>
+      <div class="sous-total">
+        <table>
+          <tr>
+            <td>Total CET :</td>
+            <td class="white" align="center" {{#if ST_color_cet}} style="background-color:{{ST_color_cet.color}}" {{else}} {{/if}}>{{#if ST_pris_cet}} {{ST_pris_cet}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if ST_color_cet}} style="background-color:{{ST_color_cet.color}}" {{else}} {{/if}}>{{#if ST_reste_cet}} {{ST_reste_cet}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="global-bloc">
+        <table>
+          <tr>
+            <td>Global :</td>
+            <td class="white" align="center" {{#if Global_color}} style="background-color:{{Global_color.color}}" {{else}} {{/if}}>{{#if Global_pris}} {{Global_pris}} {{else}} 0 {{/if}}</td>
+            <td class="white" align="center" {{#if Global_color}} style="background-color:{{Global_color.color}}" {{else}} {{/if}}>{{#if Global_reste}} {{Global_reste}} {{else}} 0 {{/if}}</td>
+          </tr>
+        </table>
+      </div>
+    </span>
+  {{/each}}
+  </div>
+  <div class="fin-bloc">
+    <div class="container-end">
+      <table class='head-table'>
+        <tr>
+          <td class='head-table-left'>*Bah on mets l'explication ici...</td>
+          <td class='head-table-right'>{{#if account}} utilisateur : {{account.user}} {{else}} Nom d'utilisateur inconnu !{{/if}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</script>

@@ -21,6 +21,9 @@
   "bugs": {
     "url": "https://github.com/atom/electron-quick-start/issues"
   },
+  "web-preferences" : {
+    "web-security" : false
+  },
   "homepage": "https://github.com/atom/electron-quick-start#readme",
   "devDependencies": {
     "electron-prebuilt": "^0.34.0"

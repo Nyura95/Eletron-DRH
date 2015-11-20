@@ -1,26 +1,107 @@
 (function() {
+  var Gateway;
+
+  Gateway = (function() {
+    function Gateway() {}
+
+    Gateway.prototype.request = function(target, params, callback) {
+      return $.post(this.baseUrl + target, params).done((function(_this) {
+        return function(data) {
+          return callback(JSON.parse(data));
+        };
+      })(this));
+    };
+
+    Gateway.prototype.timedRequest = function(target, params, interval, callback) {
+      return setInterval((function(_this) {
+        return function() {
+          return $.post(_this.baseUrl + target, params).done(function(data) {
+            return callback(JSON.parse(data));
+          });
+        };
+      })(this), interval);
+    };
+
+    Gateway.prototype.template = function(target, params, template, callback) {
+      return $.post(this.baseUrl + target, params).done((function(_this) {
+        return function(data) {
+          var html, source;
+          data = JSON.parse(data);
+          source = $("#" + template).html();
+          template = Handlebars.compile(source);
+          html = template(data);
+          return callback(html, data);
+        };
+      })(this));
+    };
+
+    Gateway.prototype.nodetemplate = function(template, data, callback) {
+      var html, source;
+      source = $("#" + template).html();
+      template = Handlebars.compile(source);
+      html = template(data);
+      return callback(html, data);
+    };
+
+    return Gateway;
+
+  })();
+
+  window.Gateway = Gateway;
+
+}).call(this);
+
+(function() {
   var IndexController;
 
   IndexController = (function() {
+    var GenerateBloc;
+
     function IndexController(app, conn) {
       this.app = app;
       this.conn = conn;
       this.button();
       this.app.controller('IndexCtrl', (function(_this) {
         return function($scope) {
-          _this.conn.query('select * from ennemie', [], function(err, rows) {
-            var i, len, results, row;
-            console.log(rows);
-            results = [];
-            for (i = 0, len = rows.length; i < len; i++) {
-              row = rows[i];
-              results.push($scope.message = row.name);
-            }
-            return results;
+          var token;
+          token = "";
+          $('[data-menu="envoie"]').click(function() {
+            return $.ajax({
+              type: "GET",
+              url: "http://127.0.0.1:3000/login/admin",
+              data: {},
+              cache: false,
+              success: function(e) {
+                token = e.token;
+                $("#test").load("template/Template_blocgestime.hbs.html");
+                return $.ajax({
+                  type: "GET",
+                  url: "http://127.0.0.1:3000/getAllView/" + token + "/401T011T0239/UG",
+                  data: {},
+                  cache: false,
+                  success: function(e) {
+                    console.log(e);
+                    return GenerateBloc({
+                      UP: e.UP,
+                      date: e.date,
+                      structure_lib: e.structure_lib,
+                      account: e.account,
+                      donnee: e.donnee.all[0].donnee
+                    });
+                  },
+                  error: function(error) {
+                    return console.log(error);
+                  },
+                  dataType: "JSON"
+                });
+              },
+              error: function(error) {
+                return console.log(error);
+              },
+              dataType: "JSON"
+            });
           });
-          return $('[data-menu="click"]').click(function() {
-            return console.log("yep");
-          });
+          return $('[data-menu="token"]').click(function() {});
         };
       })(this));
       this.app.controller('IndexTest', function($scope, $routeParams) {
@@ -38,6 +119,16 @@
       return $(".bubble-orange").click(function() {
         return remote.getCurrentWindow().minimize();
       });
+    };
+
+    GenerateBloc = function(data) {
+      var gateway;
+      gateway = new Gateway();
+      return gateway.nodetemplate("Blocgestime-tpl", data, (function(_this) {
+        return function(html) {
+          return $("#bloc").html(html);
+        };
+      })(this));
     };
 
     return IndexController;
