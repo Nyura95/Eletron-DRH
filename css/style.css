@@ -156,6 +156,23 @@ body {
   font-size: 12px;
 }
 #main-content {
+  width: 79%;
   display: inline-block;
   vertical-align: top;
+}
+
+.container-head {
+  width: 100%;
+  background-color: lightgray;
+  margin-top: 11px;
+  margin-left: 2px;
+}
+.container-head .head-table {
+  width: 100%;
+}
+.container-head .head-table .head-table-left {
+  width: 48%;
+}
+.container-head .head-table .head-table-right {
+  width: 13%;
 }

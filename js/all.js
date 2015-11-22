@@ -55,45 +55,38 @@
   var IndexController;
 
   IndexController = (function() {
-    var GenerateBloc;
+    var generateBloc;
 
     function IndexController(app, conn) {
       this.app = app;
       this.conn = conn;
       this.button();
+      new interBody().createSidebar([
+        {
+          place: "header",
+          gif: "fa fa-cubes",
+          title: "Téléchargement"
+        }, {
+          place: "normal",
+          gif: "fa fa-cube",
+          title: "<a href='#/'>Home</a>"
+        }, {
+          place: "normal",
+          gif: "fa fa-cube",
+          title: "<a href='#/gestime/token/401T011T0239/UG'>Gestime</a>"
+        }
+      ]);
       this.app.controller('IndexCtrl', (function(_this) {
         return function($scope) {
-          var token;
-          token = "";
-          $('[data-menu="envoie"]').click(function() {
+          return $('[data-menu="envoie"]').click(function() {
+            document.location.href = "#/test";
             return $.ajax({
               type: "GET",
               url: "http://127.0.0.1:3000/login/admin",
               data: {},
               cache: false,
-              success: function(e) {
-                token = e.token;
-                $("#test").load("template/Template_blocgestime.hbs.html");
-                return $.ajax({
-                  type: "GET",
-                  url: "http://127.0.0.1:3000/getAllView/" + token + "/401T011T0239/UG",
-                  data: {},
-                  cache: false,
-                  success: function(e) {
-                    console.log(e);
-                    return GenerateBloc({
-                      UP: e.UP,
-                      date: e.date,
-                      structure_lib: e.structure_lib,
-                      account: e.account,
-                      donnee: e.donnee.all[0].donnee
-                    });
-                  },
-                  error: function(error) {
-                    return console.log(error);
-                  },
-                  dataType: "JSON"
-                });
+              success: function(token) {
+                return document.location.href = "#gestime/" + token.token + "/401T011T0239/UG";
               },
               error: function(error) {
                 return console.log(error);
@@ -101,13 +94,31 @@
               dataType: "JSON"
             });
           });
-          return $('[data-menu="token"]').click(function() {});
         };
       })(this));
-      this.app.controller('IndexTest', function($scope, $routeParams) {
-        $scope.message = "Je suis une vaiable";
-        return $scope.orderId = $routeParams.orderId;
-      });
+      this.app.controller('IndexGestime', (function(_this) {
+        return function($scope, $routeParams) {
+          _this.addTemplate(["Template_blocgestime"]);
+          new interBody().changeTitle("Suivi des congés");
+          return $('[data-menu="retour"]').click(function() {
+            return document.location.href = "#/";
+          });
+
+          /*$.ajax {
+            type: "GET"
+            url: "http://127.0.0.1:3000/getAllView/#{$routeParams.token}/#{$routeParams.code}/#{$routeParams.instruction}"
+            data:{}
+            cache:false
+            success: (e) ->
+              console.log e
+              generateBloc {UP:e.UP, date:e.date, structure_lib:e.structure_lib, account:e.account, donnee:e.donnee.all[0].donnee}
+            error: (error) ->
+              console.log error
+            dataType: "JSON"
+          }
+           */
+        };
+      })(this));
     }
 
     IndexController.prototype.button = function() {
@@ -121,14 +132,26 @@
       });
     };
 
-    GenerateBloc = function(data) {
+    generateBloc = function(data) {
       var gateway;
       gateway = new Gateway();
       return gateway.nodetemplate("Blocgestime-tpl", data, (function(_this) {
         return function(html) {
-          return $("#bloc").html(html);
+          console.log("test");
+          return $("#main-content").append(html);
         };
       })(this));
+    };
+
+    IndexController.prototype.addTemplate = function(template) {
+      var i, len, myTemplate, results;
+      results = [];
+      for (i = 0, len = template.length; i < len; i++) {
+        myTemplate = template[i];
+        $("#main-content").append("<div id='" + myTemplate + "'</div>");
+        results.push($("#" + myTemplate).load("template/" + myTemplate + ".hbs.html"));
+      }
+      return results;
     };
 
     return IndexController;
@@ -136,6 +159,55 @@
   })();
 
   window.IndexController = IndexController;
+
+}).call(this);
+
+(function() {
+  var interBody;
+
+  interBody = (function() {
+    function interBody() {}
+
+    interBody.prototype.changeTitle = function(title) {
+      return $("#title").html(title);
+    };
+
+    interBody.prototype.createSidebar = function(sidebar) {
+      var i, len, results, side;
+      results = [];
+      for (i = 0, len = sidebar.length; i < len; i++) {
+        side = sidebar[i];
+        results.push(this.headerSidebar(side.place, side.gif, side.title));
+      }
+      return results;
+    };
+
+    interBody.prototype.headerSidebar = function(header, gif, title) {
+      return $("#sidebar").append("<div class='" + header + "-item'><i class='" + gif + "'></i>" + title + "</div>");
+    };
+
+    return interBody;
+
+  })();
+
+  window.interBody = interBody;
+
+
+  /*
+  <div class="header-item"><i class="fa fa-arrow-down"></i> Téléchargement</div>
+  <div class="normal-item"><i class="fa fa-clock-o"></i> En attente</div>
+  <div class="normal-item"><i class="fa fa-spinner"></i> En cours</div>
+  <div class="normal-item"><i class="fa fa-check-circle"></i> Terminer</div>
+  <br />
+  <div class="header-item"><i class="fa fa-hdd-o"></i> Librairie</div>
+  <div class="normal-item"><i class="fa fa-film"></i> Vidéo</div>
+  <div class="normal-item"><i class="fa fa-music"></i> Audio</div>
+  <div class="normal-item"><i class="fa fa-file-archive-o"></i> Compressé</div>
+  <br />
+  <div class="header-item"><i class="fa fa-globe"></i> Web</div>
+  <div class="normal-item"><i class="fa fa-compass"></i> Découvrir</div>
+  <div class="normal-item"><i class="fa fa-search"></i> Rechercher</div>
+   */
 
 }).call(this);
 
@@ -152,15 +224,14 @@
         user: 'root',
         password: "root"
       });
-      connection.query("USE kingoloto");
       this.app.config([
         "$routeProvider", function($routeProvider, $scope) {
           return $routeProvider.when('/', {
             templateUrl: 'partials/index.html',
             controller: 'IndexCtrl'
-          }).when('/test/:orderId', {
-            templateUrl: 'partials/test.html',
-            controller: 'IndexTest'
+          }).when('/gestime/:token/:code/:instruction', {
+            templateUrl: 'partials/gestime.html',
+            controller: 'IndexGestime'
           });
         }
       ]);

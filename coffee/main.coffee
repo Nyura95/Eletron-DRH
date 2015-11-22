@@ -9,7 +9,7 @@ class Main
       user       : 'root',
       password   : "root"
     }
-    connection.query "USE kingoloto"
+    #connection.query "USE kingoloto"
     # Setup routes
     @app.config ["$routeProvider", ($routeProvider, $scope) ->
       $routeProvider
@@ -18,9 +18,9 @@ class Main
           controller: 'IndexCtrl'
         }
 
-        .when '/test/:orderId', {
-          templateUrl: 'partials/test.html',
-          controller: 'IndexTest'
+        .when '/gestime/:token/:code/:instruction', {
+          templateUrl: 'partials/gestime.html',
+          controller: 'IndexGestime'
         }
 
     ]

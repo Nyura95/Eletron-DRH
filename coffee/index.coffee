@@ -1,50 +1,63 @@
 class IndexController
   constructor: (@app, @conn) ->
     @button()
+    new interBody().createSidebar [{place:"header", gif:"fa fa-cubes", title:"Téléchargement"}, {place:"normal", gif:"fa fa-cube", title:"<a href='#/'>Home</a>"}, {place:"normal", gif:"fa fa-cube", title:"<a href='#/gestime/token/401T011T0239/UG'>Gestime</a>"}]
+
+
     @app.controller 'IndexCtrl', ($scope) =>
-      token = ""
       $('[data-menu="envoie"]').click ->
-        #token/UG/401T011T0239
+        document.location.href = "#/test";
         $.ajax {
           type: "GET"
           url: "http://127.0.0.1:3000/login/admin"
           data:{}
           cache:false
-          success: (e) ->
-            token = e.token
-            $("#test").load "template/Template_blocgestime.hbs.html"
-            $.ajax {
-              type: "GET"
-              url: "http://127.0.0.1:3000/getAllView/#{token}/401T011T0239/UG"
-              data:{}
-              cache:false
-              success: (e) ->
-                console.log e
-                GenerateBloc {UP:e.UP, date:e.date, structure_lib:e.structure_lib, account:e.account, donnee:e.donnee.all[0].donnee}
-              error: (error) ->
-                console.log error
-              dataType: "JSON"
-            }
+          success: (token) ->
+            document.location.href = "#gestime/#{token.token}/401T011T0239/UG";
           error: (error) ->
             console.log error
           dataType: "JSON"
         }
-      $('[data-menu="token"]').click ->
-        #token/UG/401T011T0239
+
+    @app.controller 'IndexGestime', ($scope, $routeParams) =>
+      #$scope.token = $routeParams.token
+
+      @addTemplate ["Template_blocgestime"]
+      new interBody().changeTitle "Suivi des congés"
 
 
+      $('[data-menu="retour"]').click ->
+        document.location.href = "#/";
 
-    @app.controller 'IndexTest', ($scope, $routeParams) ->
-      $scope.message = "Je suis une vaiable"
-      $scope.orderId = $routeParams.orderId
+      ###$.ajax {
+        type: "GET"
+        url: "http://127.0.0.1:3000/getAllView/#{$routeParams.token}/#{$routeParams.code}/#{$routeParams.instruction}"
+        data:{}
+        cache:false
+        success: (e) ->
+          console.log e
+          generateBloc {UP:e.UP, date:e.date, structure_lib:e.structure_lib, account:e.account, donnee:e.donnee.all[0].donnee}
+        error: (error) ->
+          console.log error
+        dataType: "JSON"
+      }###
+
+
+      #$scope.message = "Je suis une vaiable"
+      #$scope.orderId = $routeParams.orderId
   button: () ->
     remote = require 'remote'
     $(".bubble-red").click ->
       remote.getCurrentWindow().close()
     $(".bubble-orange").click ->
       remote.getCurrentWindow().minimize()
-  GenerateBloc = (data) ->
+  generateBloc = (data) ->
     gateway = new Gateway()
     gateway.nodetemplate "Blocgestime-tpl", data, (html) =>
-      $("#bloc").html html
+      console.log "test"
+      $("#main-content").append html
+  addTemplate: (template) ->
+    for myTemplate in template
+      $("#main-content").append "<div id='#{myTemplate}'</div>"
+      $("##{myTemplate}").load "template/#{myTemplate}.hbs.html"
 window.IndexController = IndexController
