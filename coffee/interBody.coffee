@@ -4,23 +4,23 @@ class interBody
   changeTitle: (title) ->
     $("#title").html title
   createSidebar: (sidebar) ->
+    $("#sidebar").css "display", "inline-block"
+    $("#main-content").css "width", "79%"
     @headerSidebar side.place, side.gif, side.title for side in sidebar
   headerSidebar: (header, gif, title) ->
     $("#sidebar").append "<div class='#{header}-item'><i class='#{gif}'></i>#{title}</div>"
-
+  createSysbar: (sysbar) ->
+    $("#menu-container").append "<div class='item'>"
 window.interBody = interBody
 ###
-<div class="header-item"><i class="fa fa-arrow-down"></i> Téléchargement</div>
-<div class="normal-item"><i class="fa fa-clock-o"></i> En attente</div>
-<div class="normal-item"><i class="fa fa-spinner"></i> En cours</div>
-<div class="normal-item"><i class="fa fa-check-circle"></i> Terminer</div>
-<br />
-<div class="header-item"><i class="fa fa-hdd-o"></i> Librairie</div>
-<div class="normal-item"><i class="fa fa-film"></i> Vidéo</div>
-<div class="normal-item"><i class="fa fa-music"></i> Audio</div>
-<div class="normal-item"><i class="fa fa-file-archive-o"></i> Compressé</div>
-<br />
-<div class="header-item"><i class="fa fa-globe"></i> Web</div>
-<div class="normal-item"><i class="fa fa-compass"></i> Découvrir</div>
-<div class="normal-item"><i class="fa fa-search"></i> Rechercher</div>
+      <div class="menu-container">
+        <div class="item">
+          Fichier(s)
+          <div class="sub-menu">
+            <div class="sub-item" data-menu="click">
+              1 menu
+            </div>
+          </div>
+        </div>
+      </div>
 ###

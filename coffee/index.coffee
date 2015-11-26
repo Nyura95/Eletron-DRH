@@ -1,7 +1,7 @@
 class IndexController
   constructor: (@app, @conn) ->
     @button()
-    new interBody().createSidebar [{place:"header", gif:"fa fa-cubes", title:"Téléchargement"}, {place:"normal", gif:"fa fa-cube", title:"<a href='#/'>Home</a>"}, {place:"normal", gif:"fa fa-cube", title:"<a href='#/gestime/token/401T011T0239/UG'>Gestime</a>"}]
+    #new interBody().createSidebar [{place:"header", gif:"fa fa-cubes", title:"Téléchargement"}, {place:"normal", gif:"fa fa-cube", title:"<a href='#/'>Home</a>"}, {place:"normal", gif:"fa fa-cube", title:"<a href='#/gestime/token/401T011T0239/UG'>Gestime</a>"}]
 
 
     @app.controller 'IndexCtrl', ($scope) =>

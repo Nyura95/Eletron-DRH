@@ -1,12 +1,12 @@
-@background_partial: #535A5E;
+@background_partial: white;
 
-@background_sysbar: #2E3233;
+@background_sysbar: #076f9f;
 @color_sysbar: white;
-@color_sysbar_item: gray;
+@color_sysbar_item: white;
 @color_sysbar_item_hover: white;
-@color_sysbar_submenu: #2E3233;
-@color_sysbar_subitem: gray;
-@color_sysbar_subitem_hover: white;
+@color_sysbar_submenu: #076f9f;
+@color_sysbar_subitem: white;
+@color_sysbar_subitem_hover: lightgray;
 
 @background_sidebar: #393E3F;
 @color_header_item: white;
@@ -209,9 +209,15 @@ body {
 }
 
 #main-content {
-  width: 79%;
+  @degrade-haut: #ffffff;
+  @degrade-bas: #F0F8FF;
+  width: 100%;
   display: inline-block;
   vertical-align: top;
   overflow-y: auto;
   height: 100%;
+  background-image: -moz-linear-gradient(top, @degrade-haut ,@degrade-bas);
+  background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @degrade-bas),color-stop(1, @degrade-haut));
+  filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@degrade-haut, endColorstr=@degrade-bas);
+  -ms-filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@degrade-haut, endColorstr=@degrade-bas);
 }
